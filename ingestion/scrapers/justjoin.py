@@ -1,6 +1,20 @@
+import json
+import os
+from datetime import datetime
+from time import sleep
 import requests
-from bs4 import BeautifulSoup
 from lxml import etree
+
+today = datetime.now().strftime("%Y-%m-%d")
+# Checkpoint Logic
+
+CHECKPOINT_FILE = f"../../data/bronze/justjoin/{today}/scraped.txt"
+
+if os.path.exists(CHECKPOINT_FILE):
+    with open(CHECKPOINT_FILE, "r") as f:
+        scraped_slugs = set(f.read().splitlines())
+else:
+    scraped_slugs = set()
 
 initial_sitemap_index_url = "https://justjoin.it/sitemaps/active-jobs.xml"
 header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
@@ -42,9 +56,68 @@ def get_sitemap_urls(sitemap_url, headers):
 all_job_offer_urls = get_sitemap_urls(sitemap_url=initial_sitemap_index_url, headers=header)
 
 print(f"\nTotal job offer URLs found: {len(all_job_offer_urls)}")
-for url in all_job_offer_urls[:10]:  # Print first 10 for example
-    print(url)
 
 
-def get_salaries():
-    pass
+def get_api_urls(jobs_urls):
+    """
+    function takes in all the urls extracted from the xml, format it for the api route
+    """
+    base = "https://justjoin.it/api/candidate-api/offers/"
+
+    api_urls = {}
+    if jobs_urls is not None:
+        for url in jobs_urls[:1000]:
+            slug = url.split("/")[-1]
+            api_url = base + slug
+            api_urls[slug] = api_url
+    else:
+        return None
+
+    return api_urls
+
+job_urls_api = get_api_urls(all_job_offer_urls)
+
+
+
+def write_json_to_file(slug, website_data):
+    """
+    receive the slug and save the file
+    """
+    folder = f"../../data/bronze/justjoin/{today}"
+
+    os.makedirs(folder, exist_ok=True)
+
+    with open(f"{folder}/{slug}.json", "w", encoding="utf-8") as f:
+        json.dump(website_data, f, ensure_ascii= False, indent=4)
+        print(f"{slug} successfully saved!")
+
+    # write the slug names to the files to keep track in case of failure
+    with open(CHECKPOINT_FILE, "a") as w:
+        w.write(slug + "\n")
+
+def get_job_details(job_api_urls: dict, headers: dict):
+    """
+    receive the jobs urls, make a request, and save the data
+    """
+    for slug, url in job_api_urls.items():
+
+        if slug in scraped_slugs:
+            print(f"Already scraped, skipping: {slug}")
+            continue
+        sleep(2)
+        try:
+            r = requests.get(url, headers=headers, timeout=10)
+            r.raise_for_status()
+            json_data = r.json()
+        except requests.exceptions.HTTPError as e:
+            print( f"HTTP_Error {e}")
+        except requests.exceptions.Timeout as e:
+            print(f"we ran out of time {e}")
+        else:
+            write_json_to_file(slug, json_data)
+
+def main():
+    get_job_details(job_urls_api, headers=header)
+
+if __name__ == "__main__":
+    main()

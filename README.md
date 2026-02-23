@@ -1,0 +1,22 @@
+## Data Sources & Legal Compliance
+
+All sources reviewed on [today's date].
+
+### JustJoin.it
+- robots.txt reviewed: /api/ disallowed, public pages allowed
+- Approach: scraping public job listing pages only
+- Rate limiting: 3 second delay between requests
+- Data is fetched from the same endpoint that JustJoin.it's 
+own website uses to render public job listings. No authentication 
+required. Data is publicly visible to any visitor.
+
+### NoFluffJobs.com  
+- robots.txt reviewed: explicitly Allow: / for all public pages
+- /api/ disallowed — not using API
+- Rate limiting: 3 second delay between requests
+
+### Pracuj.pl
+- robots.txt reviewed: only asset folders disallowed
+- Sitemaps publicly exposed including CurrentOffers sitemap
+- Approach: parsing sitemap XML then visiting job URLs
+- Rate limiting: 3 second delay between requests

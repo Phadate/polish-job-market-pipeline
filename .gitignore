@@ -400,3 +400,4 @@ htmlcov/
 .pytest_cache/
 
 data/
+.env
