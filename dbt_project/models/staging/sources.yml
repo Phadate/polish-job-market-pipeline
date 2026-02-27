@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: silver
+    catalog: job_pipeline_databricks
+    schema: silver
+    tables:
+      - name: silver_jobs
+      - name: silver_skills
+      - name: silver_salaries
