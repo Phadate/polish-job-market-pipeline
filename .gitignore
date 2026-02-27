@@ -406,3 +406,8 @@ data/
 dbt_project/target/
 dbt_project/dbt_packages/
 dbt_project/logs/
+manifest.json
+semantic_manifest.json
+otel.parquet
+profiles.yml
+*.parquet
