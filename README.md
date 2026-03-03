@@ -34,3 +34,28 @@ endpoints. Excluded out of respect for crawling policy.
 ### Pracuj.pl & theprotocol.it ⏳ Planned
 Both sites protected by Cloudflare bot detection.
 Playwright-based scraping planned for future sprint.
+
+## Key Market Insights (February 2026)
+
+### Work Model Distribution (946 listings)
+- Hybrid dominates at 47.8% of all listings
+- Remote nearly equal at 46.3%  
+- Full office work represents only 5.9% of tech jobs
+- Polish tech market has effectively eliminated 
+  mandatory office work
+
+### Most In-Demand Skills
+- Python #1 (221 mentions)
+- SQL #2 (164 mentions)
+- AWS outpaces Azure (122 vs 87)
+- Docker and Kubernetes tied at 107
+
+### Salary by Experience Level (PLN/month)
+- Junior B2B:    4 300 - 6 500
+- Mid B2B:      15 600 - 21 000
+- Senior B2B:   22 400 - 29 000
+
+---
+**Note:** Salary figures require normalisation of 
+salary units (hourly/daily/monthly) for accurate 
+comparison. This is a planned Silver layer improvement.
