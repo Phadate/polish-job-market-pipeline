@@ -1,6 +1,6 @@
 ## Data Sources & Legal Compliance
 
-All sources reviewed on [today's date].
+All sources reviewed 
 
 ### JustJoin.it
 - robots.txt reviewed: /api/ disallowed, public pages allowed
@@ -21,28 +21,16 @@ required. Data is publicly visible to any visitor.
 - Approach: parsing sitemap XML then visiting job URLs
 - Rate limiting: 3 second delay between requests
 
----
-**Note:** Salary figures require normalisation of 
-salary units (hourly/daily/monthly) for accurate 
-comparison. This is a planned Silver layer improvement.
+## Update on Data Sources
 
+### JustJoin.it ✅ Active
+946 job listings scraped via public API endpoint.
+Full Bronze → Silver → Gold pipeline operational.
 
-## Key Market Insights (February 2026)
+### NoFluffJobs ❌ Excluded
+robots.txt explicitly disallows /api/ and /posting/ 
+endpoints. Excluded out of respect for crawling policy.
 
-### Work Model Distribution (946 listings)
-- Hybrid dominates at 47.8% of all listings
-- Remote nearly equal at 46.3%  
-- Full office work represents only 5.9% of tech jobs
-- Polish tech market has effectively eliminated 
-  mandatory office work
-
-### Most In-Demand Skills
-- Python #1 (221 mentions)
-- SQL #2 (164 mentions)
-- AWS outpaces Azure (122 vs 87)
-- Docker and Kubernetes tied at 107
-
-### Salary by Experience Level (PLN/month)
-- Junior B2B:    4 300 - 6 500
-- Mid B2B:      15 600 - 21 000
-- Senior B2B:   22 400 - 29 000
+### Pracuj.pl & theprotocol.it ⏳ Planned
+Both sites protected by Cloudflare bot detection.
+Playwright-based scraping planned for future sprint.
