@@ -411,3 +411,6 @@ semantic_manifest.json
 otel.parquet
 profiles.yml
 *.parquet
+
+airflow/data/
+airflow/logs/
