@@ -1,0 +1,88 @@
+version: 2
+
+models:
+  - name: stg_jobs
+    description: "Active job listings from justjoin silver layer"
+    columns:
+      - name: id
+        description: "unique job listing identifier"
+        tests:
+          - not_null
+          - unique
+      - name: title
+        description: "Job title"
+        tests:
+          - not_null
+      - name: city
+        description: "Job city"
+        tests:
+          - not_null
+      - name: is_active
+        description: "whether job listing is still active"
+        tests:
+          - not_null
+      - name: workplace_type
+        description: "Whether Remote, Office or Hybrid"
+        tests:
+          - accepted_values:
+              values: ['remote', 'hybrid', 'office']
+              config:
+                severity: warn
+      - name: experience_level
+        description: "check specific experience needed for the job"
+        tests:
+          - accepted_values:
+              values: ['senior', 'mid', 'junior', 'c_level']
+              config:
+                severity: warn
+      - name: company_name
+        description: "Name of the hiring company"
+        tests:
+          - not_null
+
+# Documentation and test for the stg_skills model
+  - name: stg_skills
+    description: "skills required for each job posting"
+    columns:
+      - name: id
+        description: "unique job listing identifier"
+        tests:
+          - not_null
+      - name: title
+        description: "Job title"
+        tests:
+          - not_null
+      - name: skill_name
+        description: "name of the skills"
+        tests:
+          - not_null
+
+# Documentation and test for the stg_salaries model
+  - name: stg_salaries
+    description: "salary for each job listing"
+    columns:
+      - name: id
+        description: "unique job listing identifier"
+        tests:
+          - not_null
+      - name: currency
+        description: "job posting currency"
+        tests:
+          - not_null
+      - name: is_gross
+        description: "whether the salary is gross or net"
+        tests:
+          - not_null
+      - name: salary_disclosed
+        description: "whether salary is listed or not"
+        tests:
+          - not_null
+      - name: contract_type
+        description: "Type of employment contract"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['b2b', 'permanent', 'mandate_contract', 'any', 'contract']
+              config:
+                severity: warn
+            
