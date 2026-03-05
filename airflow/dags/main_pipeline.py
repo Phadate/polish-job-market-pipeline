@@ -1,7 +1,11 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
+from airflow.providers.databricks.operators.databricks import DatabricksRunNowOperator
 from datetime import datetime, timedelta
 import sys
+import os
+
+
 sys.path.insert(0, '/opt/airflow/pipelines')
 
 
@@ -37,5 +41,11 @@ with DAG(
         python_callable=upload_all
     )
 
+    databricks_task = DatabricksRunNowOperator(
+        task_id="trigger_silver_transformation",
+        databricks_conn_id='databricks_default',
+        job_id=os.environ.get('DATABRICKS_SILVER_JOB_ID')
+    )
+
     # define order
-    scrape_task >> upload_task
+    scrape_task >> upload_task >> databricks_task
