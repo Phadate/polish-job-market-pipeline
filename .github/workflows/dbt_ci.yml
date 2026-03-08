@@ -1,0 +1,53 @@
+name: dbt CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+     branches:
+      - main
+    
+jobs:
+  dbt_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      
+      - name: Install dbt
+        run: |
+          pip install dbt-databricks==1.7.0
+
+      - name: Create dbt profiles
+        run: |
+          mkdir -p ~/.dbt
+          cat > ~/.dbt/profiles.yml << EOF
+          dbt_project:
+            target: dev
+            outputs:
+              dev:
+                type: databricks
+                catalog: job_pipeline_databricks
+                schema: silver
+                host: ${{ secrets.DATABRICKS_HOST }}
+                http_path: ${{ secrets.DATABRICKS_HTTP_PATH }}
+                token: ${{ secrets.DATABRICKS_TOKEN }}
+                threads: 4
+          EOF
+
+      - name: Run dbt compile
+        run: |
+          cd dbt_project
+          dbt compile
+
+      - name: Run dbt test
+        run: |
+          cd dbt_project
+          dbt test
