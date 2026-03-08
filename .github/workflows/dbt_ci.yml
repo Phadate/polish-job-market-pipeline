@@ -23,7 +23,9 @@ jobs:
       
       - name: Install dbt
         run: |
-          pip install dbt-databricks==1.7.0
+          pip install \
+            dbt-databricks==1.9.2 \
+            databricks-sdk==0.28.0
 
       - name: Create dbt profiles
         run: |
