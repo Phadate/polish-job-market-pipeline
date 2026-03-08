@@ -4,3 +4,4 @@ azure-storage-blob
 python-dotenv
 lxml
 apache-airflow-providers-databricks==4.3.3
+apache-airflow-providers-dbt-cloud==3.5.0

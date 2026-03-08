@@ -1,6 +1,7 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.providers.databricks.operators.databricks import DatabricksRunNowOperator
+from airflow.providers.dbt.cloud.operators.dbt import DbtCloudRunJobOperator
 from datetime import datetime, timedelta
 import sys
 import os
@@ -47,5 +48,13 @@ with DAG(
         job_id=os.environ.get('DATABRICKS_SILVER_JOB_ID')
     )
 
+    dbt_task = DbtCloudRunJobOperator(
+        task_id='run_dbt_models',
+        dbt_cloud_conn_id='dbt_cloud_default',
+        job_id=int(os.environ.get('DBT_JOB_ID')),
+        check_interval = 10,
+        timeout=300
+    )
+
     # define order
-    scrape_task >> upload_task >> databricks_task
+    scrape_task >> upload_task >> databricks_task >> dbt_task

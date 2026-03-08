@@ -38,6 +38,9 @@ services:
       - DATABRICKS_HOST=${DATABRICKS_HOST}
       - DATABRICKS_TOKEN=${DATABRICKS_TOKEN}
       - DATABRICKS_SILVER_JOB_ID=${DATABRICKS_SILVER_JOB_ID}
+      - DBT_ACCOUNT_ID=${DBT_ACCOUNT_ID}
+      - DBT_JOB_ID=${DBT_JOB_ID}
+      - DBT_API_TOKEN=${DBT_API_TOKEN}
     command: >
       bash -c "pip install --no-cache-dir -r /opt/airflow/requirements.txt &&
                airflow db init &&
@@ -78,6 +81,9 @@ services:
       - DATABRICKS_HOST=${DATABRICKS_HOST}
       - DATABRICKS_TOKEN=${DATABRICKS_TOKEN}
       - DATABRICKS_SILVER_JOB_ID=${DATABRICKS_SILVER_JOB_ID}
+      - DBT_ACCOUNT_ID=${DBT_ACCOUNT_ID}
+      - DBT_JOB_ID=${DBT_JOB_ID}
+      - DBT_API_TOKEN=${DBT_API_TOKEN}      
     logging:
       options:
         max-size: 10m
@@ -121,6 +127,9 @@ services:
       - DATABRICKS_HOST=${DATABRICKS_HOST}
       - DATABRICKS_TOKEN=${DATABRICKS_TOKEN}
       - DATABRICKS_SILVER_JOB_ID=${DATABRICKS_SILVER_JOB_ID}
+      - DBT_ACCOUNT_ID=${DBT_ACCOUNT_ID}
+      - DBT_JOB_ID=${DBT_JOB_ID}
+      - DBT_API_TOKEN=${DBT_API_TOKEN}      
     volumes:
       - ./dags:/opt/airflow/dags
       - ./requirements.txt:/opt/airflow/requirements.txt
