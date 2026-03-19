@@ -65,7 +65,7 @@ def get_api_urls(jobs_urls):
 
     api_urls = {}
     if jobs_urls is not None:
-        for url in jobs_urls[:10]:
+        for url in jobs_urls[:1000]:
             slug = url.split("/")[-1]
             api_url = base + slug
             api_urls[slug] = api_url
